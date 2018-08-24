@@ -4,8 +4,8 @@
              x:Class="Sales.Views.ProductsPage" 
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
     <ContentPage.Content>
-        <StackLayout BindingContext="{Binding Products}">
-            <ListView ItemsSource="{Binding Products}" >
+        <StackLayout BindingContext="{Binding Products}" BackgroundColor="Black">
+            <ListView   ItemsSource="{Binding Products}" >
                
             </ListView>
         </StackLayout>

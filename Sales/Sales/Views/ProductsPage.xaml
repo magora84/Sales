@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Sales.Views.ProductsPage" 
-             Title="ProductPage"
+             Title="Products"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
     <ContentPage.Content>
         <StackLayout  BindingContext="{Binding Products}" Padding="5" >
@@ -23,16 +23,14 @@
                                 <Label FontAttributes="Bold" 
                                     Grid.Column="0" Text="{Binding Description}"
                                        />
-                                <Label 
-                                    Grid.Column="1" 
-                                    Text="{Binding Price ,StringFormat='{0:C2}'}"
-                                    HorizontalOptions="End"
-                                       />
+                                <Label  Grid.Column="1"  Text="{ Binding Price, StringFormat='{0:C2}' }" HorizontalOptions="End" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+          
         </StackLayout>
+        
     </ContentPage.Content>
 </ContentPage>

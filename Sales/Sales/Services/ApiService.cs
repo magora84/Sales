@@ -19,7 +19,7 @@ namespace Sales.Services {
             }
             var isReachable = await CrossConnectivity.Current.IsRemoteReachable("http://www.google.com");
             if (!isReachable) {
-                return new Response { IsSuccess = false, Message = "no internet connection", };
+                return new Response { IsSuccess = false, Message = "No internet connection.", };
             }
             return new Response {
                 IsSuccess = true,

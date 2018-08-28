@@ -2,7 +2,8 @@
 namespace Sales.Services {
     using Newtonsoft.Json;
     using Plugin.Connectivity;
-    using Sales.Common.Models;
+    using Common.Models;
+    using Helpers;
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
@@ -14,12 +15,12 @@ namespace Sales.Services {
             if (!CrossConnectivity.Current.IsConnected) {
                 return new Response {
                     IsSuccess = false,
-                    Message = "Please turn on internet settings",
+                    Message = Languages.TurnOnInternet,
                 };
             }
             var isReachable = await CrossConnectivity.Current.IsRemoteReachable("http://www.google.com");
             if (!isReachable) {
-                return new Response { IsSuccess = false, Message = "No internet connection.", };
+                return new Response { IsSuccess = false, Message = Languages.NoInternet, };
             }
             return new Response {
                 IsSuccess = true,

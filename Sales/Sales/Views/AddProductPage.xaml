@@ -10,21 +10,66 @@
         <ScrollView BindingContext="{Binding AddProduct}" >
             
         <StackLayout Padding="5">
-            <Label Text="{i18n:Translate Description}"/>
-            <Entry Placeholder="{i18n:Translate DescriptionPlaceHolder}"></Entry>
-            <Label Text="{i18n:Translate Price}"/>
-            <Entry
-                Keyboard="Numeric"
-                Placeholder="{i18n:Translate PricePlaceHolder}"></Entry>
-            <Label Text="{i18n:Translate Remarks}"></Label>
-            <Editor VerticalOptions="FillAndExpand"> </Editor>
-            <ActivityIndicator></ActivityIndicator>
-            <Button BackgroundColor="navy" 
-                    BorderRadius="23"
-                    HeightRequest="46"
-                    Text="{i18n:Translate Save}" 
-                    TextColor="White"
-                    ></Button>
+                <Image Source="noproduct.png"></Image>
+                <Label
+                    FontSize="Small"
+                    Text="{i18n:Translate ChangeImage}"
+                    HorizontalOptions="Center"
+                    ></Label>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition> 
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                        <Label VerticalOptions="Center"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Text="{i18n:Translate Description}"/>
+                        <Entry
+                            Text="{Binding Description}"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Placeholder="{i18n:Translate DescriptionPlaceHolder}"></Entry>
+                        <Label 
+                            VerticalOptions="Center"
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            Text="{i18n:Translate Price}"/>
+                        <Entry
+                            Text="{Binding Price}"
+                               Grid.Column="1"
+                            Grid.Row="1"
+                            Keyboard="Numeric"
+                            Placeholder="{i18n:Translate PricePlaceHolder}"></Entry>
+                        <Label
+                          
+                              Grid.Column="0"
+                            Grid.Row="2"
+                            Text="{i18n:Translate Remarks}"></Label>
+                        <Editor 
+                            Text="{Binding Remarks}"
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            VerticalOptions="FillAndExpand"> 
+                            
+                        </Editor>
+                </Grid>
+            <ActivityIndicator 
+                IsRunning="{Binding IsRunning}"
+                VerticalOptions="CenterAndExpand"></ActivityIndicator>
+            <Button 
+                Command="{Binding SaveCommand}"
+                BackgroundColor="navy" 
+                BorderRadius="23"
+                HeightRequest="46"
+                Text="{i18n:Translate Save}" 
+                TextColor="White"
+                 ></Button>
         </StackLayout>
         </ScrollView>
        

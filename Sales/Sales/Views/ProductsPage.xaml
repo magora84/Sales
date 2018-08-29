@@ -5,6 +5,9 @@
              x:Class="Sales.Views.ProductsPage" 
              Title="{i18n:Translate Products}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="ic_action_add_circle.png" Command="{Binding AddProductCommand}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout  BindingContext="{Binding Products}" Padding="5" >
             <ListView ItemsSource="{Binding Products}"
@@ -27,12 +30,19 @@
                                        Source="{Binding ImageFullPath}">
                                     
                                 </Image>
+                                <StackLayout Grid.Column="1" VerticalOptions="Center">
                                 <Label FontAttributes="Bold" 
-                                    Grid.Column="1" Text="{Binding Description}"
+                                    Text="{Binding Description}"
                                       VerticalOptions="Center" />
+                                    <Label 
+                                    Text="{Binding Remarks}"
+                                      VerticalOptions="Center" />
+
+                                </StackLayout>
                                 <Label VerticalOptions="Center"  
                                     Grid.Column="2"  
                                         Text="{ Binding Price, StringFormat='{0:C2}' }" HorizontalOptions="End" />
+                                
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

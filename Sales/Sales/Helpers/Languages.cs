@@ -29,5 +29,18 @@
         public static string TurnOnInternet {
             get { return Resource.TurnOnInternet; }
         }
+        public static string AddProduct {
+            get { return Resource.AddProduct; }
+        }
+        public static string DescriptionPlaceHolder {
+            get { return Resource.DescriptionPlaceHolder; }
+        }
+        public static string Price {
+            get { return Resource.Price; }
+        }
+        public static string PricePlaceHolder {
+            get { return Resource.PricePlaceHolder; }
+        }
+     
     }
 }

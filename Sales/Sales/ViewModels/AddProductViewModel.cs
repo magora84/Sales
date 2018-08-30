@@ -1,16 +1,15 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using Sales.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Sales.Services;
+using Sales.Common.Models;
 
-namespace Sales.ViewModels
-{
+namespace Sales.ViewModels {
     public class AddProductViewModel:BaseViewModel
     {
         #region Attributes
+        private ApiService apiService;
         private bool isRunning;
         private bool isEnable;
         #endregion
@@ -31,6 +30,7 @@ namespace Sales.ViewModels
 
         #region Constructors
         public AddProductViewModel() {
+            this.apiService = new ApiService();
             this.IsEnable = true;
         }
         #endregion
@@ -66,7 +66,41 @@ namespace Sales.ViewModels
                     , Languages.Accept);
                 return;
             }
+            this.isRunning = true;
+            this.IsEnable = false;
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess) {
+                this.isRunning = false;
+                this.IsEnable = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error, 
+                    connection.Message, 
+                    Languages.Accept);
+                return;
+            }
+            var product = new Product
+            {
+                Description= this.Description,
+                Price= price,
+                Remarks=this.Remarks,
+            };
+            var url = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlProductsController"].ToString();
+            var response = await this.apiService.Post(url, prefix, controller,product);
 
+            if (!response.IsSuccess) {
+                this.isRunning = false;
+                this.IsEnable = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    Languages.Accept);
+                return;
+            }
+            this.isRunning = false;
+            this.IsEnable = true;
+            await Application.Current.MainPage.Navigation.PopAsync();
 
         }
 

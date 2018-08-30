@@ -8,6 +8,8 @@ namespace Sales.Services {
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using System.Text;
+
     public class ApiService {
 
         public async Task<Response> CheckConnection() {
@@ -24,7 +26,7 @@ namespace Sales.Services {
             }
             return new Response {
                 IsSuccess = true,
-        };
+            };
         }
 
 
@@ -46,21 +48,56 @@ namespace Sales.Services {
                 }
                 var list = JsonConvert.DeserializeObject<List<T>>(answer);
                 return new Response {
-                    IsSuccess= true,
+                    IsSuccess = true,
                     Result = list,
                 };
             }
             catch (Exception ex) {
 
                 return new Response {
-                    IsSuccess= false,
-                    Message= ex.Message,
+                    IsSuccess = false,
+                    Message = ex.Message,
 
                 };
             }
 
-        
+
         }
+
+        public async Task<Response> Post<T>(string urlBase, string prefix, string controller, T model){
+
+            try {
+                var request = JsonConvert.SerializeObject(model);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var cliente = new HttpClient();
+                cliente.BaseAddress = new Uri(urlBase);
+                var url = $"{prefix}{controller}";
+                //var url =  string.Format("{0}{1}", prefix, controller);
+                var response = await cliente.PostAsync(url,content);
+                var answer = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode) {
+                    return new Response {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+                var obj = JsonConvert.DeserializeObject<T>(answer);
+                return new Response {
+                    IsSuccess = true,
+                    Result = obj,
+                };
+            }
+            catch (Exception ex) {
+
+                return new Response {
+                    IsSuccess = false,
+                    Message = ex.Message,
+
+                };
+            }
+        }
+            
+
     }
 
 }

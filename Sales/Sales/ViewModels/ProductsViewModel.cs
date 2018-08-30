@@ -11,13 +11,13 @@ namespace Sales.ViewModels
 {
     public class ProductsViewModel : BaseViewModel
     {
+        #region atributtos
         private ApiService apiService;
-        private bool isRefreshing;
+        private bool isRefreshing; 
+        #endregion
 
-        public bool IsRefreshing {
-            get { return this.isRefreshing; }
-            set { this.SetValue(ref this.isRefreshing,value); }
-        }
+      
+        #region propiedades
 
         private ObservableCollection<Product> products;
 
@@ -25,11 +25,33 @@ namespace Sales.ViewModels
             get { return this.products; }
             set { this.SetValue(ref this.products, value); }
         }
+        public bool IsRefreshing {
+            get { return this.isRefreshing; }
+            set { this.SetValue(ref this.isRefreshing, value); }
+        }
+        #endregion
+
+        #region constructores
         public ProductsViewModel() {
+            //parte de singleton colocar la instancia en el constructor
+            instance = this;
             this.apiService = new ApiService();
             this.LoadProducts();
         }
+        #endregion
 
+        #region singleton
+        private static ProductsViewModel instance;
+
+        public static ProductsViewModel GetInstance() {
+            if (instance== null) {
+                return new ProductsViewModel();
+            }
+            return instance;
+        }
+        #endregion
+
+        #region methods
         private async void LoadProducts() {
             this.IsRefreshing = true;
 
@@ -52,7 +74,8 @@ namespace Sales.ViewModels
             var list = (List<Product>)response.Result;
             this.Products = new ObservableCollection<Product>(list);
             this.IsRefreshing = false;
-        }
+        } 
+        #endregion
         public ICommand RefreshCommand {
             get {
                 return new RelayCommand(LoadProducts);

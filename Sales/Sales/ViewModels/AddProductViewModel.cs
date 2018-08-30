@@ -66,7 +66,7 @@ namespace Sales.ViewModels {
                     , Languages.Accept);
                 return;
             }
-            this.isRunning = true;
+            this.IsRunning = true;
             this.IsEnable = false;
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess) {
@@ -80,6 +80,7 @@ namespace Sales.ViewModels {
             }
             var product = new Product
             {
+                //la fecha sera capturada en el servidor 
                 Description= this.Description,
                 Price= price,
                 Remarks=this.Remarks,
@@ -90,7 +91,7 @@ namespace Sales.ViewModels {
             var response = await this.apiService.Post(url, prefix, controller,product);
 
             if (!response.IsSuccess) {
-                this.isRunning = false;
+                this.IsRunning = false;
                 this.IsEnable = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
@@ -98,7 +99,13 @@ namespace Sales.ViewModels {
                     Languages.Accept);
                 return;
             }
-            this.isRunning = false;
+            var newProduct = (Product)response.Result;
+            // llamamos la clase cargada en memoria de ProductsViewModel
+            var viewModel = ProductsViewModel.GetInstance();
+            viewModel.Products.Add(newProduct);
+            
+
+            this.IsRunning = false;
             this.IsEnable = true;
             await Application.Current.MainPage.Navigation.PopAsync();
 

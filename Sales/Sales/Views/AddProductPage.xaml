@@ -10,7 +10,7 @@
         <ScrollView BindingContext="{Binding AddProduct}" >
             
         <StackLayout Padding="5">
-                <Image Source="noproduct.png"></Image>
+                <Image Source="noproduct"></Image>
                 <Label
                     FontSize="Small"
                     Text="{i18n:Translate ChangeImage}"

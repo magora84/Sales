@@ -65,5 +65,20 @@
         public static string Cancel {
             get { return Resource.Cancel; }
         }
+        public static string Delete {
+            get { return Resource.Delete; }
+        }
+        public static string Edit {
+            get { return Resource.Edit; }
+        }
+        public static string DeleteConfirmation {
+            get { return Resource.DeleteConfirmation; }
+        }
+        public static string Yes {
+            get { return Resource.Yes; }
+        }
+        public static string No {
+            get { return Resource.No; }
+        }
     }
 }

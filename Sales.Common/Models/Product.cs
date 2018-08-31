@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sales.Common.Models {
     public class Product {
@@ -16,6 +17,9 @@ namespace Sales.Common.Models {
 
         [Display(Name ="Image")]
         public string ImagePath { get; set; }
+
+        [NotMapped]
+        public byte[] ImageArray { get; set; }
 
         [DisplayFormat(DataFormatString ="{0:C2}",ApplyFormatInEditMode = false)]
         public Decimal Price { get; set; }

@@ -4,17 +4,24 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Sales.Services;
 using Sales.Common.Models;
+using Plugin.Media.Abstractions;
+using System;
+using Plugin.Media;
 
 namespace Sales.ViewModels {
-    public class AddProductViewModel:BaseViewModel
-    {
+    public class AddProductViewModel : BaseViewModel {
         #region Attributes
+        private MediaFile file;
         private ApiService apiService;
+        private ImageSource imageSource;
         private bool isRunning;
         private bool isEnable;
         #endregion
         #region Properties 
-
+        public ImageSource ImageSource{ 
+        get{return this.imageSource;}
+        set{ this.SetValue(ref this.imageSource, value); }
+      }
         public string Description { get; set; }
         public string Price { get; set; }
         public string Remarks { get; set; }
@@ -32,6 +39,8 @@ namespace Sales.ViewModels {
         public AddProductViewModel() {
             this.apiService = new ApiService();
             this.IsEnable = true;
+            this.ImageSource = "noproduct";
+
         }
         #endregion
 
@@ -78,12 +87,18 @@ namespace Sales.ViewModels {
                     Languages.Accept);
                 return;
             }
+            byte[] imageArray = null;
+            if (this.file != null) {
+                imageArray = FilesHelper.ReadFully(this.file.GetStream());
+            }
+
             var product = new Product
             {
                 //la fecha sera capturada en el servidor 
                 Description= this.Description,
                 Price= price,
                 Remarks=this.Remarks,
+                ImageArray= imageArray,
             };
             var url = Application.Current.Resources["UrlAPI"].ToString();
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
@@ -111,6 +126,44 @@ namespace Sales.ViewModels {
 
         }
 
+        public ICommand ChangeImageCommand {
+            get {
+                return new RelayCommand(ChangeImage);
+            }
+        }
+
+        private async void ChangeImage() {
+            await CrossMedia.Current.Initialize();
+            var source = await Application.Current.MainPage.DisplayActionSheet(
+                Languages.ImageSource,
+                Languages.Cancel,
+                null,
+                Languages.FromGallery,
+                Languages.NewPicture
+                );
+            if (source == Languages.Cancel) {
+                this.file = null;
+                return;
+            }
+            if (source== Languages.NewPicture) {
+                this.file = await CrossMedia.Current.TakePhotoAsync(
+                new StoreCameraMediaOptions {
+                    Directory = "Sample",
+                    Name = "test.jpg",
+                    PhotoSize = PhotoSize.Small,
+                });
+            }
+            else {
+                this.file = await CrossMedia.Current.PickPhotoAsync();
+            }
+            if (this.file != null) {
+                this.ImageSource = ImageSource.FromStream(() => {
+                    var stream = this.file.GetStream();
+                    return stream;
+                }
+                );
+            }
+        }
         #endregion
     }
 }

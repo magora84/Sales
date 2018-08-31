@@ -10,7 +10,14 @@
         <ScrollView BindingContext="{Binding AddProduct}" >
             
         <StackLayout Padding="5">
-                <Image Source="noproduct"></Image>
+                <Image 
+                    Source="{Binding ImageSource}">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChangeImageCommand}"></TapGestureRecognizer>
+                    </Image.GestureRecognizers>
+
+                </Image>
+                
                 <Label
                     FontSize="Small"
                     Text="{i18n:Translate ChangeImage}"

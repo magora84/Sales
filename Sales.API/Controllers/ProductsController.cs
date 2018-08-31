@@ -41,6 +41,9 @@ namespace Sales.API.Controllers {
                 return BadRequest(ModelState);
             }
 
+
+
+
             if (id != product.ProductId)
             {
                 return BadRequest();

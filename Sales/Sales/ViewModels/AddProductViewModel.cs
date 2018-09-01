@@ -117,7 +117,16 @@ namespace Sales.ViewModels {
             var newProduct = (Product)response.Result;
             // llamamos la clase cargada en memoria de ProductsViewModel
             var viewModel = ProductsViewModel.GetInstance();
-            viewModel.Products.Add(newProduct);
+            viewModel.Products.Add(new ProductItemViewModel {
+                Description = newProduct.Description,
+                ImageArray = newProduct.ImageArray,
+                ImagePath = newProduct.ImagePath,
+                IsAvailable = newProduct.IsAvailable,
+                Price = newProduct.Price,
+                ProductId = newProduct.ProductId,
+                PublishOn = newProduct.PublishOn,
+                Remarks = newProduct.Remarks,
+        });
             
 
             this.IsRunning = false;

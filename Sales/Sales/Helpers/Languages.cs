@@ -80,5 +80,8 @@
         public static string No {
             get { return Resource.No; }
         }
+        public static string Confirm {
+            get { return Resource.Confirm; }
+        }
     }
 }

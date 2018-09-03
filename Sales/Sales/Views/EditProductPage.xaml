@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:Sales.Helpers"
+             BindingContext="{Binding Main,Source={StaticResource Locator}}"
+             Title="{i18n:Translate EditProduct}"
+             x:Class="Sales.Views.EditProductPage">
+    <ContentPage.Content>
+        <ScrollView BindingContext="{Binding EditProduct}" >
+
+            <StackLayout Padding="5">
+                <Image 
+                    Source="{Binding ImageSource}">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChangeImageCommand}"></TapGestureRecognizer>
+                    </Image.GestureRecognizers>
+
+                </Image>
+
+                <Label
+                    FontSize="Small"
+                    Text="{i18n:Translate ChangeImage}"
+                    HorizontalOptions="Center"
+                    ></Label>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label VerticalOptions="Center"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Text="{i18n:Translate Description}"/>
+                    <Entry
+                            Text="{Binding Product.Description}"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Placeholder="{i18n:Translate DescriptionPlaceHolder}"></Entry>
+                    <Label 
+                            VerticalOptions="Center"
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            Text="{i18n:Translate Price}"/>
+                    <Entry
+                            Text="{Binding Product.Price}"
+                               Grid.Column="1"
+                            Grid.Row="1"
+                            Keyboard="Numeric"
+                            Placeholder="{i18n:Translate PricePlaceHolder}"></Entry>
+                    <Label
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            Text="{i18n:Translate Remarks}"></Label>
+                    <Label
+                            Grid.Column="0"
+                            Grid.Row="3"
+                            Text="{i18n:Translate IsAvailable}"></Label>
+                    <Switch 
+                         Grid.Column="1"
+                            Grid.Row="3"
+                        HorizontalOptions="End"
+                        IsToggled="{Binding Product.IsAvailable}"></Switch>
+                    <Editor 
+                            Text="{Binding Product.Remarks}"
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            VerticalOptions="FillAndExpand">
+
+                    </Editor>
+                </Grid>
+                <ActivityIndicator 
+                IsRunning="{Binding IsRunning}"
+                VerticalOptions="CenterAndExpand"></ActivityIndicator>
+                <Button 
+                Command="{Binding SaveCommand}"
+                BackgroundColor="navy" 
+                BorderRadius="23"
+                HeightRequest="46"
+                Text="{i18n:Translate Save}" 
+                TextColor="White"
+                 ></Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

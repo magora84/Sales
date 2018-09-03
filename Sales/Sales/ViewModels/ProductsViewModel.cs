@@ -2,6 +2,7 @@
 using Sales.Common.Models;
 using Sales.Helpers;
 using Sales.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Sales.ViewModels
 
 
         #region propiedades
-
+        public List<Product> MyProducts { get; set; }
 
         public ObservableCollection<ProductItemViewModel> Products { 
             get { return this.products; }
@@ -72,10 +73,16 @@ namespace Sales.ViewModels
                 await Application.Current.MainPage.DisplayAlert(Languages.Error, response.Message, "Accept");
                 return;
             }
-            var list = (List<Product>)response.Result;
-            //expresion lamda para asignar elemetnos de  un tipo a otra 
-            //mas eficiente que el foreach para asignar
-            var myList = list.Select(p => new ProductItemViewModel {
+           this.MyProducts = (List<Product>)response.Result;
+            this.RefreshList();
+            
+            this.IsRefreshing = false;
+        }
+
+        public void RefreshList() {
+            //expresion lamda para asignar elemetnos de  un tipo de clase a otra 
+            //es mas eficiente que el foreach para asignar
+            var myListProductItemViewModel = this.MyProducts.Select(p => new ProductItemViewModel {
                 Description = p.Description,
                 ImageArray = p.ImageArray,
                 ImagePath = p.ImagePath,
@@ -87,9 +94,11 @@ namespace Sales.ViewModels
             });
 
 
-            this.Products = new ObservableCollection<ProductItemViewModel>(myList);
-            this.IsRefreshing = false;
-        } 
+            this.Products = new ObservableCollection<ProductItemViewModel>(
+                myListProductItemViewModel.OrderBy(p => p.Description)
+                );
+          
+        }
         #endregion
         public ICommand RefreshCommand {
             get {

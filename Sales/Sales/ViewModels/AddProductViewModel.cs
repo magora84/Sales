@@ -1,14 +1,16 @@
-﻿using GalaSoft.MvvmLight.Command;
-using Sales.Helpers;
-using System.Windows.Input;
-using Xamarin.Forms;
-using Sales.Services;
-using Sales.Common.Models;
-using Plugin.Media.Abstractions;
-using System;
-using Plugin.Media;
+﻿
 
 namespace Sales.ViewModels {
+
+    using GalaSoft.MvvmLight.Command;
+    using Helpers;
+    using System.Windows.Input;
+    using Xamarin.Forms;
+    using Services;
+    using Common.Models;
+    using Plugin.Media.Abstractions;
+    using Plugin.Media;
+
     public class AddProductViewModel : BaseViewModel {
         #region Attributes
         private MediaFile file;
@@ -18,13 +20,10 @@ namespace Sales.ViewModels {
         private bool isEnable;
         #endregion
         #region Properties 
-        public ImageSource ImageSource{ 
-        get{return this.imageSource;}
-        set{ this.SetValue(ref this.imageSource, value); }
-      }
         public string Description { get; set; }
         public string Price { get; set; }
         public string Remarks { get; set; }
+       
         public bool IsRunning {
             get { return this.isRunning; }
             set { this.SetValue(ref this.isRunning, value); }
@@ -32,6 +31,10 @@ namespace Sales.ViewModels {
         public bool IsEnable {
             get { return this.isEnable; }
             set { this.SetValue(ref this.isEnable, value); }
+        }
+        public ImageSource ImageSource {
+            get { return this.imageSource; }
+            set { this.SetValue(ref this.imageSource, value); }
         }
         #endregion
 
@@ -116,19 +119,9 @@ namespace Sales.ViewModels {
             }
             var newProduct = (Product)response.Result;
             // llamamos la clase cargada en memoria de ProductsViewModel
-            var viewModel = ProductsViewModel.GetInstance();
-            viewModel.Products.Add(new ProductItemViewModel {
-                Description = newProduct.Description,
-                ImageArray = newProduct.ImageArray,
-                ImagePath = newProduct.ImagePath,
-                IsAvailable = newProduct.IsAvailable,
-                Price = newProduct.Price,
-                ProductId = newProduct.ProductId,
-                PublishOn = newProduct.PublishOn,
-                Remarks = newProduct.Remarks,
-        });
-            
-
+            var productsviewModel = ProductsViewModel.GetInstance();
+            productsviewModel.MyProducts.Add(newProduct);
+            productsviewModel.RefreshList();
             this.IsRunning = false;
             this.IsEnable = true;
             await Application.Current.MainPage.Navigation.PopAsync();

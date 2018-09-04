@@ -1,6 +1,4 @@
-﻿
-
-namespace Sales.ViewModels {
+﻿namespace Sales.ViewModels {
 
     using GalaSoft.MvvmLight.Command;
     using Helpers;

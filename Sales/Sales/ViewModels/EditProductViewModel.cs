@@ -78,7 +78,7 @@
             var url = Application.Current.Resources["UrlAPI"].ToString();
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
             var controller = Application.Current.Resources["UrlProductsController"].ToString();
-            var response = await this.apiService.Delete(url, prefix, controller, this.Product.ProductIdProductId);
+            var response = await this.apiService.Delete(url, prefix, controller, this.Product.ProductId);
 
             if (!response.IsSuccess) {
                 this.IsRunning = false;
@@ -87,11 +87,17 @@
                 return;
             }
 
+       
             var productsViewModel = ProductsViewModel.GetInstance();
-            var deletedProduct = productsViewModel.Products.Where(p => p.ProductId == this.Product.ProductId).FirstOrDefault();
+            var deletedProduct = productsViewModel.MyProducts.Where(p => p.ProductId == this.Product.ProductId).FirstOrDefault();
             if (deletedProduct != null) {
-                productsViewModel.Products.Remove(deletedProduct);
+                productsViewModel.MyProducts.Remove(deletedProduct);
             }
+            productsViewModel.RefreshList();
+
+            this.IsRunning = false;
+            this.isEnable = true;
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
 
         private async void Save() {

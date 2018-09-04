@@ -83,5 +83,11 @@
         public static string Confirm {
             get { return Resource.Confirm; }
         }
+        public static string IsAvailable {
+            get { return Resource.IsAvailable; }
+        }
+        public static string EditProduct {
+            get { return Resource.EditProduct; }
+        }
     }
 }

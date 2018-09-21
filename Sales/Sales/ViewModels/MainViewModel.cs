@@ -11,14 +11,14 @@ namespace Sales.ViewModels
    public class MainViewModel
     {
         #region propiedades
-
+        public LoginViewModel Login { get; set; }
         public ProductsViewModel Products { get; set; }
         public AddProductViewModel AddProduct { get; set; }
         public EditProductViewModel EditProduct { get; set; }
         #endregion
         #region constructor
         public MainViewModel() {
-            this.Products = new ProductsViewModel();
+
             instance = this;
         }
         #endregion

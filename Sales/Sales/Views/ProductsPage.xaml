@@ -10,6 +10,13 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout  BindingContext="{Binding Products}" Padding="5" >
+            <SearchBar 
+                HeightRequest="30"
+                Placeholder="{i18n:Translate Search}" 
+                Text="{Binding Filter}" 
+                SearchCommand="{Binding SearchCommand}">
+                
+            </SearchBar>
             <ListView ItemsSource="{Binding Products}"
                       HasUnevenRows="True"
                       IsRefreshing="{Binding IsRefreshing}"

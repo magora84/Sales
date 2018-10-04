@@ -12,7 +12,7 @@
             	Padding="5">
                 <Image  
                 	HeightRequest="150"
-                	Source="sales">
+                	Source="Sales">
                 </Image>
                 <Grid
                 	Margin="10,0"

@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Sales.Backend.Controllers {
+
+    [Authorize]
     public class ProductsController : Controller
     {
         private LocalDataContext db = new LocalDataContext();

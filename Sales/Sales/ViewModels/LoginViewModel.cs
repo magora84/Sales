@@ -69,8 +69,10 @@ namespace Sales.ViewModels {
                 await Application.Current.MainPage.DisplayAlert(Languages.Error, Languages.SomethingWrong, Languages.Accept);
                 return;
             }
-            this.IsRunning = false;
-            this.isEnable = true;
+
+            Settings.TokenType = token.TokenType;
+            Settings.AccessToken = token.AccessToken;
+            Settings.IsRemembered = this.IsRemembered;
 
             MainViewModel.GetInstance().Products = new ProductsViewModel();
             Application.Current.MainPage = new ProductsPage();

@@ -9,6 +9,7 @@ namespace Sales.Services {
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Text;
+    using System.Net.Http.Headers;
 
     public class ApiService {
 
@@ -79,6 +80,40 @@ namespace Sales.Services {
 
         }
 
+        public async Task<Response> GetList<T>(string urlBase, string prefix, string controller, string tokenType, string accessToken) {
+
+            try {
+                var cliente = new HttpClient();
+                cliente.BaseAddress = new Uri(urlBase);
+                cliente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                var url = $"{prefix}{controller}";
+                //var url =  string.Format("{0}{1}", prefix, controller);
+                var response = await cliente.GetAsync(url);
+                var answer = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode) {
+                    return new Response {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+                var list = JsonConvert.DeserializeObject<List<T>>(answer);
+                return new Response {
+                    IsSuccess = true,
+                    Result = list,
+                };
+            }
+            catch (Exception ex) {
+
+                return new Response {
+                    IsSuccess = false,
+                    Message = ex.Message,
+
+                };
+            }
+
+
+        }
+
         public async Task<Response> Post<T>(string urlBase, string prefix, string controller, T model){
 
             try {
@@ -112,6 +147,40 @@ namespace Sales.Services {
             }
         }
 
+        public async Task<Response> Post<T>(string urlBase, string prefix, string controller, T model, string tokenType, string accessToken) {
+
+            try {
+                var request = JsonConvert.SerializeObject(model);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var cliente = new HttpClient();
+                cliente.BaseAddress = new Uri(urlBase);
+                cliente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                var url = $"{prefix}{controller}";
+                //var url =  string.Format("{0}{1}", prefix, controller);
+                var response = await cliente.PostAsync(url, content);
+                var answer = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode) {
+                    return new Response {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+                var obj = JsonConvert.DeserializeObject<T>(answer);
+                return new Response {
+                    IsSuccess = true,
+                    Result = obj,
+                };
+            }
+            catch (Exception ex) {
+
+                return new Response {
+                    IsSuccess = false,
+                    Message = ex.Message,
+
+                };
+            }
+        }
+
         public async Task<Response> Put<T>(string urlBase, string prefix, string controller, T model,int id) {
 
             try {
@@ -119,6 +188,39 @@ namespace Sales.Services {
                 var content = new StringContent(request, Encoding.UTF8, "application/json");
                 var cliente = new HttpClient();
                 cliente.BaseAddress = new Uri(urlBase);
+                var url = $"{prefix}{controller}/{id}";
+                //var url =  string.Format("{0}{1}", prefix, controller);
+                var response = await cliente.PutAsync(url, content);
+                var answer = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode) {
+                    return new Response {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+                var obj = JsonConvert.DeserializeObject<T>(answer);
+                return new Response {
+                    IsSuccess = true,
+                    Result = obj,
+                };
+            }
+            catch (Exception ex) {
+
+                return new Response {
+                    IsSuccess = false,
+                    Message = ex.Message,
+
+                };
+            }
+        }
+        public async Task<Response> Put<T>(string urlBase, string prefix, string controller, T model, int id, string tokenType, string accessToken) {
+
+            try {
+                var request = JsonConvert.SerializeObject(model);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var cliente = new HttpClient();
+                cliente.BaseAddress = new Uri(urlBase);
+                cliente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                 var url = $"{prefix}{controller}/{id}";
                 //var url =  string.Format("{0}{1}", prefix, controller);
                 var response = await cliente.PutAsync(url, content);
@@ -179,7 +281,39 @@ namespace Sales.Services {
 
         }
 
+        public async Task<Response> Delete(string urlBase, string prefix, string controller, int id, string tokenType, string accessToken) {
 
+            try {
+                var cliente = new HttpClient();
+                cliente.BaseAddress = new Uri(urlBase);
+                cliente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                var url = $"{prefix}{controller}/{id}";
+
+                var response = await cliente.DeleteAsync(url);
+                var answer = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode) {
+                    return new Response {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+
+                return new Response {
+                    IsSuccess = true,
+
+                };
+            }
+            catch (Exception ex) {
+
+                return new Response {
+                    IsSuccess = false,
+                    Message = ex.Message,
+
+                };
+            }
+
+
+        }
     }
 
 }

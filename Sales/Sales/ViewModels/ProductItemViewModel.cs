@@ -33,7 +33,7 @@ namespace Sales.ViewModels
 
         private async void EditProduct() {
             MainViewModel.GetInstance().EditProduct = new EditProductViewModel(this);
-            await Application.Current.MainPage.Navigation.PushAsync(new EditProductPage());
+            await App.Navigator.PushAsync(new EditProductPage());
         }
 
         public ICommand DeleteProductCommand { get {
@@ -42,7 +42,7 @@ namespace Sales.ViewModels
         }
 
         private async void DeleteProduct() {
-            var answer = await Application.Current.MainPage.DisplayAlert(
+            var answer = await App.Navigator.DisplayAlert(
                 Languages.Confirm, 
                 Languages.DeleteConfirmation, 
                 Languages.Yes, 
@@ -52,7 +52,7 @@ namespace Sales.ViewModels
             }
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess) {           
-                await Application.Current.MainPage.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
+                await App.Navigator.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
                 return;
             }
                 var url = Application.Current.Resources["UrlAPI"].ToString();
@@ -61,7 +61,7 @@ namespace Sales.ViewModels
             var response = await this.apiService.Delete(url, prefix, controller,this.ProductId, Settings.TokenType, Settings.AccessToken);
 
             if (!response.IsSuccess) {
-                await Application.Current.MainPage.DisplayAlert(Languages.Error, response.Message, "Accept");
+                await App.Navigator.DisplayAlert(Languages.Error, response.Message, "Accept");
                 return;
             }
 

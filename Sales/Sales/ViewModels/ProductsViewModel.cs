@@ -70,7 +70,7 @@ namespace Sales.ViewModels
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess) {
                 this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
+                await App.Navigator.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
                 return;
             }
             var url = Application.Current.Resources["UrlAPI"].ToString();
@@ -80,7 +80,7 @@ namespace Sales.ViewModels
 
             if (!response.IsSuccess) {
                 this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert(Languages.Error, response.Message, "Accept");
+                await App.Navigator.DisplayAlert(Languages.Error, response.Message, "Accept");
                 return;
             }
            this.MyProducts = (List<Product>)response.Result;

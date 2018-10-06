@@ -54,14 +54,14 @@
 
         private async void Save() {
             if (string.IsNullOrEmpty(this.Description)) {
-                await Application.Current.MainPage.DisplayAlert(
+                await App.Navigator.DisplayAlert(
                     Languages.Error,
                     Languages.DescriptionError
                     , Languages.Accept);
                 return;
             }
             if (string.IsNullOrEmpty(this.Price)) {
-                await Application.Current.MainPage.DisplayAlert(
+                await App.Navigator.DisplayAlert(
                     Languages.Error,
                     Languages.PriceError
                     , Languages.Accept);
@@ -70,7 +70,7 @@
             var price = decimal.Parse(this.Price);
 
             if (price < 0) {
-                await Application.Current.MainPage.DisplayAlert(
+                await App.Navigator.DisplayAlert(
                     Languages.Error,
                     Languages.PriceError
                     , Languages.Accept);
@@ -82,7 +82,7 @@
             if (!connection.IsSuccess) {
                 this.isRunning = false;
                 this.IsEnable = true;
-                await Application.Current.MainPage.DisplayAlert(
+                await App.Navigator.DisplayAlert(
                     Languages.Error, 
                     connection.Message, 
                     Languages.Accept);
@@ -104,25 +104,25 @@
             var url = Application.Current.Resources["UrlAPI"].ToString();
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
             var controller = Application.Current.Resources["UrlProductsController"].ToString();
-            var response = await this.apiService.Post(url, prefix, controller,product, Settings.TokenType, Settings.AccessToken);
+            var response = await this.apiService.Post(url, prefix, controller,product);
 
             if (!response.IsSuccess) {
                 this.IsRunning = false;
                 this.IsEnable = true;
-                await Application.Current.MainPage.DisplayAlert(
+                await App.Navigator.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     Languages.Accept);
                 return;
             }
             var newProduct = (Product)response.Result;
-            // llamamos la clase cargada en memoria de ProductsViewModel
+           
             var productsviewModel = ProductsViewModel.GetInstance();
             productsviewModel.MyProducts.Add(newProduct);
             productsviewModel.RefreshList();
             this.IsRunning = false;
             this.IsEnable = true;
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await App.Navigator.PopAsync();
 
         }
 
@@ -134,7 +134,7 @@
 
         private async void ChangeImage() {
             await CrossMedia.Current.Initialize();
-            var source = await Application.Current.MainPage.DisplayActionSheet(
+            var source = await App.Navigator.DisplayActionSheet(
                 Languages.ImageSource,
                 Languages.Cancel,
                 null,

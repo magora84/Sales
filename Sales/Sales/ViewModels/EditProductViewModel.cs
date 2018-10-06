@@ -57,7 +57,7 @@
         public ICommand DeleteCommand { get { return new RelayCommand(Delete); } }
 
         private async void Delete() {
-            var answer = await Application.Current.MainPage.DisplayAlert(
+            var answer = await App.Navigator.DisplayAlert(
                 Languages.Confirm,
                 Languages.DeleteConfirmation,
                 Languages.Yes,
@@ -72,7 +72,7 @@
             if (!connection.IsSuccess) {
                 this.IsRunning = false;
                 this.isEnable = true;
-                await Application.Current.MainPage.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
+                await App.Navigator.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
                 return;
             }
             var url = Application.Current.Resources["UrlAPI"].ToString();
@@ -83,7 +83,7 @@
             if (!response.IsSuccess) {
                 this.IsRunning = false;
                 this.isEnable = true;
-                await Application.Current.MainPage.DisplayAlert(Languages.Error, response.Message, "Accept");
+                await App.Navigator.DisplayAlert(Languages.Error, response.Message, "Accept");
                 return;
             }
 
@@ -97,12 +97,12 @@
 
             this.IsRunning = false;
             this.isEnable = true;
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await App.Navigator.Navigation.PopAsync();
         }
 
         private async void Save() {
             if (string.IsNullOrEmpty(this.Product.Description)) {
-                await Application.Current.MainPage.DisplayAlert(
+                await App.Navigator.DisplayAlert(
                     Languages.Error,
                     Languages.DescriptionError
                     , Languages.Accept);
@@ -110,7 +110,7 @@
             }
       
             if (this.Product.Price < 0) {
-                await Application.Current.MainPage.DisplayAlert(
+                await App.Navigator.DisplayAlert(
                     Languages.Error,
                     Languages.PriceError
                     , Languages.Accept);
@@ -123,7 +123,7 @@
             if (!connection.IsSuccess) {
                 this.isRunning = false;
                 this.IsEnable = true;
-                await Application.Current.MainPage.DisplayAlert(
+                await App.Navigator.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     Languages.Accept);
@@ -144,7 +144,7 @@
             if (!response.IsSuccess) {
                 this.IsRunning = false;
                 this.IsEnable = true;
-                await Application.Current.MainPage.DisplayAlert(
+                await App.Navigator.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     Languages.Accept);
@@ -163,7 +163,7 @@
             productsViewModel.RefreshList();
             this.IsRunning = false;
             this.IsEnable = true;
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await App.Navigator.Navigation.PopAsync();
 
         }
 
@@ -175,7 +175,7 @@
 
         private async void ChangeImage() {
             await CrossMedia.Current.Initialize();
-            var source = await Application.Current.MainPage.DisplayActionSheet(
+            var source = await App.Navigator.DisplayActionSheet(
                 Languages.ImageSource,
                 Languages.Cancel,
                 null,

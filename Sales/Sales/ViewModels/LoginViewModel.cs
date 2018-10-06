@@ -58,7 +58,7 @@ namespace Sales.ViewModels {
             if (!connection.IsSuccess) {
                 this.IsRunning = false;
                 this.isEnable = true;
-                await Application.Current.MainPage.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
+                await App.Navigator.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
                 return;
             }
             var url = Application.Current.Resources["UrlAPI"].ToString();
@@ -66,7 +66,7 @@ namespace Sales.ViewModels {
             if (token== null || string.IsNullOrEmpty(token.AccessToken)) {
                 this.IsRunning = false;
                 this.isEnable = true;
-                await Application.Current.MainPage.DisplayAlert(Languages.Error, Languages.SomethingWrong, Languages.Accept);
+                await App.Navigator.DisplayAlert(Languages.Error, Languages.SomethingWrong, Languages.Accept);
                 return;
             }
 

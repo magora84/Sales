@@ -250,11 +250,14 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FIlesHelper.cs" />
+    <Compile Include="Helpers\MailHelper.cs" />
+    <Compile Include="Helpers\UsersHelper.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -270,6 +273,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Products\UNEFON.png" />
+    <Content Include="Content\Users\UNEFON.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -363,6 +367,10 @@
     <ProjectReference Include="..\Sales.Domain\Sales.Domain.csproj">
       <Project>{4c9dd469-87ca-45d8-9ea3-a62641c386aa}</Project>
       <Name>Sales.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sales\Sales\Sales.csproj">
+      <Project>{C46FAF6F-0E6E-42DD-8445-A5EFA4E6D40D}</Project>
+      <Name>Sales</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

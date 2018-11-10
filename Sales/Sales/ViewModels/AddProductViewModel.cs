@@ -134,7 +134,7 @@
 
         private async void ChangeImage() {
             await CrossMedia.Current.Initialize();
-            var source = await App.Navigator.DisplayActionSheet(
+            var source = await Application.Current.MainPage.DisplayActionSheet(
                 Languages.ImageSource,
                 Languages.Cancel,
                 null,
